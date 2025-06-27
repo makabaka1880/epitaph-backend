@@ -1,7 +1,7 @@
 # Created by Sean L. on Jun. 26.
 # Last Updated by Sean L. on Jun. 27.
 # 
-# Floreria - Backend
+# Epitaph - Backend
 # .github/workflows/build-release.yaml
 # 
 # FeatherDev, 2025. All rights reserved.
@@ -40,4 +40,4 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/epitaph-backend:latest
-          platforms: linux/arm64
+          platforms: linux/amd64,linux/arm64
