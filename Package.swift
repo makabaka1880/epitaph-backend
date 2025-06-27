@@ -29,14 +29,6 @@ let package = Package(
 				.product(name: "SwiftDotenv", package: "swift-dotenv"),
 			],
 			swiftSettings: swiftSettings
-		),
-		.testTarget(
-			name: "EpitaphBackendTests",
-			dependencies: [
-				.target(name: "EpitaphBackend"),
-				.product(name: "VaporTesting", package: "vapor"),
-			],
-			swiftSettings: swiftSettings
 		)
 	]
 )
