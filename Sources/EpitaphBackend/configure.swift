@@ -15,6 +15,8 @@ import Vapor
 public func configure(_ app: Application) async throws {
     SecretsManager.configure() // ⬅️ make sure we load secrets first
 
+    app.http.server.configuration.port = 2000
+
     let dbHost = SecretsManager.get(.dbHost) ?? "localhost"
     let dbPort = SecretsManager.get(.dbPort).flatMap(Int.init(_:)) ?? SQLPostgresConfiguration.ianaPortNumber
     let dbUsername = SecretsManager.get(.dbUsername) ?? "vapor_username"
@@ -50,8 +52,14 @@ public func configure(_ app: Application) async throws {
         }
     }
     
+    let corsConfig = CORSMiddleware.Configuration(
+        allowedOrigin: .all,
+        allowedMethods: [.GET, .POST, .DELETE],
+        allowedHeaders: [.accept, .authorization, .contentType, .origin, .xRequestedWith, .userAgent]
+    )
     // MARK: Middlewares
     app.middleware.use(MemorialHeaderMiddleware())
+    app.middleware.use(CORSMiddleware(configuration: corsConfig))
     
     try routes(app)
 }
