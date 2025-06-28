@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: dev-notebook
 
     steps:
       - name: Checkout Source Code

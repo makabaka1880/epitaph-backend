@@ -15,7 +15,9 @@ struct MemoryDTO: Content, Sendable {
 	var date: String
 	var description: String
 	var image: String
+}
 
+extension MemoryDTO {
 	func toModel() -> Memory {
 		Memory(
 			id: id,

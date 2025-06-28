@@ -45,7 +45,7 @@ final class Message: Model, @unchecked Sendable {
 	}
 
 	func toDTO() -> MessageDTO {
-		.init(
+		MessageDTO(
 			id: self.id,
 			createdAt: self.createdAt,
 			name: self.name,

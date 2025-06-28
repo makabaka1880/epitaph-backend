@@ -11,4 +11,5 @@ func routes(_ app: Application) throws {
     }
     try app.register(collection: MessagesController())
     try app.register(collection: MemoriesController())
+    try app.register(collection: PlainTextController())
 }
