@@ -17,7 +17,8 @@ enum SecretsKey: String, CaseIterable {
 	case dbHost             = "DB_HOST"
 	case dbName             = "DB_NAME"
 	case dbPort             = "DB_PORT"
-	case adminApiKey        = "ADMIN_API_KEY"
+	case adminPanelKey      = "ADMIN_PANEL_TOKEN"
+    case adminReviewKey     = "ADMIN_REVIEW_TOKEN"
 	case maintenanceMode    = "MAINTENANCE_MODE"
     case writeToken         = "DB_WRITE_TOKEN"
     case deleteToken        = "DB_DELETE_TOKEN"
@@ -46,7 +47,11 @@ class SecretsManager {
 				setenv(filename, trimmed, 1)
 				print("🔐 Loaded secret: \(filename)")
 			} else {
-				print("⚠️ Missing or unreadable secret: \(filename)")
+                if ProcessInfo.processInfo.environment[filename] == nil {
+                    print("⚠️ Missing or unreadable secret: \(filename)")
+                } else {
+                    print("✅ Secret loaded from env var: \(filename)")
+                }
 			}
 		}
 		#endif

@@ -42,6 +42,8 @@ public func configure(_ app: Application) async throws {
 
     app.migrations.add(CreateMessage())
     app.migrations.add(CreateMemories())
+    app.migrations.add(CreateStrings())
+    app.migrations.add(CreateReviewDB())
 
     Task {
         do {
@@ -57,6 +59,7 @@ public func configure(_ app: Application) async throws {
         allowedMethods: [.GET, .POST, .DELETE],
         allowedHeaders: [.accept, .authorization, .contentType, .origin, .xRequestedWith, .userAgent]
     )
+
     // MARK: Middlewares
     app.middleware.use(MemorialHeaderMiddleware())
     app.middleware.use(CORSMiddleware(configuration: corsConfig))

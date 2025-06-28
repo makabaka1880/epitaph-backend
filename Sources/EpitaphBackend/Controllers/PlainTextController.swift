@@ -9,6 +9,7 @@
 import Vapor
 import Fluent
 
+
 struct PlainTextController: RouteCollection {
     func boot(routes: any RoutesBuilder) {
         let plaintext = routes.grouped("plaintext")
