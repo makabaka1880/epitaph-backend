@@ -19,3 +19,9 @@ struct PaginatedResponse<T: Content>: Content {
 struct PromotePayload: Content {
     let id: UUID
 }
+
+struct IndexInfo: Content {
+    let message: String
+    let totalMessages: Int
+    let reviewQueue: Int
+}
