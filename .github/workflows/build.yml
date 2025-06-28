@@ -37,6 +37,5 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/epitaph-backend:latest
           platforms: linux/arm64
-          pull: false  # 🧠 prevent pulling `ubuntu:noble` again!
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
