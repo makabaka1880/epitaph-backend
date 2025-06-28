@@ -19,18 +19,19 @@ struct MessagesController: RouteCollection {
 			message.delete(use: self.delete)
 		}
 	}
-    
+
 	@Sendable
 	func index(req: Request) async throws -> PaginatedResponse<MessageDTO> {
 		let totalCount = try await Message.query(on: req.db).count()
 		let limit = (try? req.query.get(Int.self, at: "limit")) ?? 20
 		let totalPages = (totalCount + limit - 1) / limit
-
+        let ascending = (try? req.query.get(Bool.self, at: "ascending")) ?? false
 		let lastCreatedAt = try? req.query.get(Date.self, at: "lastCreatedAt")
 		let page = (try? req.query.get(Int.self, at: "page")) ?? 1
 
 		var query = Message.query(on: req.db)
-			.sort(\.$createdAt, .descending)
+			.sort(\.$updatedAt, ascending ? .ascending : .descending)
+			.sort(\.$createdAt, ascending ? .ascending : .descending)
 			.limit(limit)
 
 		if let last = lastCreatedAt {
