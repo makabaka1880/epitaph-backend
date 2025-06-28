@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    runs-on: dev-notebook
+    runs-on: [dev-notebook]
 
     steps:
       - name: Checkout Source Code
