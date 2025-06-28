@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    runs-on: [dev-notebook]
+    runs-on: [self-hosted, Linux, ARM64]
 
     steps:
       - name: Checkout Source Code
