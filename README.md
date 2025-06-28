@@ -1,5 +1,7 @@
 # Backend API Documentation
 
+[![Build and Push Image](https://github.com/makabaka1880/epitaph-backend/actions/workflows/build.yml/badge.svg)](https://github.com/makabaka1880/epitaph-backend/actions/workflows/build.yml)
+
 ## Overview
 
 Epitaph Backend API for managing memorial messages. Built with Vapor and PostgreSQL.

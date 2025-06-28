@@ -2,7 +2,7 @@
 // Last Updated by Sean L. on Jun. 28.
 // 
 // Epitaph - Backend
-// Sources/EpitaphBackend/Migrations/CreateMessage.swift
+// Sources/EpitaphBackend/Migrations/CreateMigrations.swift
 // 
 // Makabaka1880, 2025. All rights reserved.
 
@@ -39,5 +39,35 @@ struct CreateMemories: AsyncMigration {
 
     func revert(on database: any Database) async throws {
         try await database.schema("memories").delete()
+    }
+}
+
+struct CreateStrings: AsyncMigration {
+    func prepare(on database: any Database) async throws {
+        try await database.schema("plaintext")
+            .id()
+            .field("key", .string, .required)
+            .field("content", .string, .required)
+            .create()
+    }
+
+    func revert(on database: any Database) async throws {
+        try await database.schema("plaintext").delete()
+    }
+}
+
+struct CreateReviewDB: AsyncMigration {
+    func prepare(on database: any Database) async throws {
+        try await database.schema("review_stack_messages")
+            .field("created_at", .datetime, .required)
+            .field("name", .string, .required)
+            .field("note", .string, .required)
+            .field("recipient", .string, .required)
+            .field("updated_at", .datetime)
+            .create()
+    }
+
+    func revert(on database: any Database) async throws {
+        try await database.schema("review_stack_messages").delete()
     }
 }

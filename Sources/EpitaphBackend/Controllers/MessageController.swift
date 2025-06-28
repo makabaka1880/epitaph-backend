@@ -1,3 +1,11 @@
+// Created by Sean L. on Jun. 28.
+// Last Updated by Sean L. on Jun. 28.
+// 
+// Epitaph - Backend
+// Sources/EpitaphBackend/Controllers/MessageController.swift
+// 
+// Makabak1880, 2025. All rights reserved.
+
 import Fluent
 import Vapor
 
@@ -6,7 +14,7 @@ struct MessagesController: RouteCollection {
 		let messages = routes.grouped("messages")
 
 		messages.get(use: self.index)
-		messages.post(use: self.create)
+		messages.post(use: self.post)
 		messages.group(":messageID") { message in
 			message.delete(use: self.delete)
 		}
@@ -40,17 +48,13 @@ struct MessagesController: RouteCollection {
 		)
 	}
 
-	@Sendable
-	func create(req: Request) async throws -> MessageDTO {
-		guard let authToken = req.headers["Authorization"].first, SecretsManager.authenticate(key: .writeToken, against: authToken) else {
-			throw Abort(.forbidden)
-		}
-
-		let message = try req.content.decode(MessageDTO.self).toModel()
-
-		try await message.save(on: req.db)
-		return message.toDTO()
-	}
+    @Sendable
+    func post(_ req: Request) async throws -> ReviewMessageDTO {
+        let payload = try req.content.decode(PayloadMessage.self)
+        let review = payload.toReviewMessage()
+        try await review.save(on: req.db)
+        return review.toDTO()
+    }
 
 	@Sendable
 	func delete(req: Request) async throws -> HTTPStatus {
@@ -60,6 +64,9 @@ struct MessagesController: RouteCollection {
 		guard let message = try await Message.find(req.parameters.get("messageID"), on: req.db) else {
 			throw Abort(.notFound)
 		}
+
+		let reviewMessage: ReviewMessage = message.remove()
+		try await reviewMessage.save(on: req.db)
 
 		try await message.delete(on: req.db)
 		return .noContent

@@ -15,3 +15,7 @@ struct PaginatedResponse<T: Content>: Content {
     let currentPage: Int     // current page number (offset based)
     let results: [T]
 }
+
+struct PromotePayload: Content {
+    let id: UUID
+}
