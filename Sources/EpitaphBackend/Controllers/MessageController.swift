@@ -19,6 +19,7 @@ struct MessagesController: RouteCollection {
 			message.delete(use: self.delete)
 		}
 	}
+    
 	@Sendable
 	func index(req: Request) async throws -> PaginatedResponse<MessageDTO> {
 		let totalCount = try await Message.query(on: req.db).count()
