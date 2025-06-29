@@ -21,4 +21,5 @@ func routes(_ app: Application) throws {
     try app.register(collection: MemoriesController())
     try app.register(collection: PlainTextController())
     try app.register(collection: MessageReviewController())
+    try app.register(collection: GraydateController())
 }
