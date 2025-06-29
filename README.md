@@ -101,7 +101,7 @@ Create a new message.
 
 ### DELETE `/api/messages/:messageID`
 
-Delete a message by its UUID.
+Delete a message by its UUID (moves it to the review stack).
 
 **Path Parameters:**
 
@@ -118,10 +118,13 @@ Delete a message by its UUID.
 | Code | Description              |
 | ---- | ------------------------ |
 | 204  | Deleted successfully     |
+| 403  | Forbidden (if not authorized) |
 | 404  | Message not found        |
 | 500  | Server or database error |
 
 ---
+
+
 
 ## Notes
 
