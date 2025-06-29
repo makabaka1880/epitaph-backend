@@ -25,3 +25,7 @@ struct IndexInfo: Content {
     let totalMessages: Int
     let reviewQueue: Int
 }
+
+extension Array: AsyncResponseEncodable where Element: AsyncResponseEncodable {
+
+}

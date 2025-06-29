@@ -6,7 +6,9 @@
 // 
 // Makabaka1880, 2025. All rights reserved.
 
+import Vapor
 import Fluent
+import FluentPostgresDriver
 
 struct CreateMessage: AsyncMigration {
     func prepare(on database: any Database) async throws {
@@ -58,16 +60,23 @@ struct CreateStrings: AsyncMigration {
 
 struct CreateReviewDB: AsyncMigration {
     func prepare(on database: any Database) async throws {
+        try await database.createPostgresEnumIfNeeded(
+            name: "message_status",
+            cases: ["pending", "removed", "rejected"]
+        )
+
         try await database.schema("review_stack_messages")
             .field("created_at", .datetime, .required)
             .field("name", .string, .required)
             .field("note", .string, .required)
             .field("recipient", .string, .required)
+            .field("status", .custom("message_status"), .required)
             .field("updated_at", .datetime)
             .create()
     }
 
     func revert(on database: any Database) async throws {
         try await database.schema("review_stack_messages").delete()
+        try await database.dropPostgresEnumIfExists(name: "message_status")
     }
 }
