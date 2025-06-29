@@ -56,7 +56,7 @@ public func configure(_ app: Application) async throws {
     
     let corsConfig = CORSMiddleware.Configuration(
         allowedOrigin: .all,
-        allowedMethods: [.GET, .POST, .DELETE],
+        allowedMethods: [.GET, .POST, .DELETE, .OPTIONS],
         allowedHeaders: [.accept, .authorization, .contentType, .origin, .xRequestedWith, .userAgent]
     )
 
