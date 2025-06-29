@@ -24,6 +24,7 @@ struct GraydateController: RouteCollection {
             .grouped("grayscale")
 
         graydates.get("today", use: today)
+        graydates.get("range", use: range)
     }
 
     func today(_ req: Request) async throws -> some AsyncResponseEncodable {
@@ -44,5 +45,24 @@ struct GraydateController: RouteCollection {
             gray: graydate != nil,
             reason: graydate?.reason
         )
+    }
+
+    func range(_ req: Request) async throws -> some AsyncResponseEncodable {
+        guard
+            let fromString = req.query[String.self, at: "from"],
+            let toString = req.query[String.self, at: "to"],
+            let fromDate = ISO8601DateFormatter().date(from: fromString),
+            let toDate = ISO8601DateFormatter().date(from: toString)
+        else {
+            throw Abort(.badRequest, reason: "Missing or invalid 'from' or 'to' query parameters.")
+        }
+
+        let results = try await Graydate.query(on: req.db)
+            .filter(\.$date, .greaterThanOrEqual, fromDate)
+            .filter(\.$date, .lessThanOrEqual, toDate)
+            .all()
+            .map({ $0.toDTO() })
+
+        return results
     }
 }
