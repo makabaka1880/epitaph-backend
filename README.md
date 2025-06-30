@@ -57,7 +57,7 @@ Fetch a paginated list of messages.
 | 200  | Success                  |
 | 400  | Invalid query parameters |
 | 500  | Server or database error |
-
+    
 ---
 
 ### POST `/api/messages`
