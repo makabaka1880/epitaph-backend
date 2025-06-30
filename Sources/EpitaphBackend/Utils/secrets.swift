@@ -22,6 +22,7 @@ enum SecretsKey: String, CaseIterable {
 	case maintenanceMode    = "MAINTENANCE_MODE"
     case writeToken         = "DB_WRITE_TOKEN"
     case deleteToken        = "DB_DELETE_TOKEN"
+    case badgeFetchPAT      = "BADGE_FETCH_PAT"
 }
 
 class SecretsManager {
