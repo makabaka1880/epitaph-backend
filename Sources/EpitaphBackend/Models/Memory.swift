@@ -29,23 +29,18 @@ final class Memory: Model, @unchecked Sendable {
     @Field(key: "description")
     var description: String
 
-    @Field(key: "image")
-    var image: String
-
     init() { }
 
     init(
         id: UUID? = nil,
         label: String,
         date: String,
-        description: String,
-        image: String
+        description: String
     ) {
         self.id = id
         self.label = label
         self.date = date
         self.description = description
-        self.image = image
     }
 
     func toDTO() -> MemoryDTO {
@@ -53,8 +48,7 @@ final class Memory: Model, @unchecked Sendable {
             id: self.id,
             label: self.label, 
             date: self.date, 
-            description: self.description, 
-            image: self.image
+            description: self.description
         )
     }
 }
