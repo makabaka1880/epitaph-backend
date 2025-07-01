@@ -18,7 +18,6 @@ struct PaginatedResponse<T: Content>: Content {
 
 struct IndexedResponse<T: Content>: Content {
     let count: Int
-    let currentIndex: Int
     let result: T
 }
 

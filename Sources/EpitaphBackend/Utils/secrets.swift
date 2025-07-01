@@ -23,6 +23,7 @@ enum SecretsKey: String, CaseIterable {
     case writeToken         = "DB_WRITE_TOKEN"
     case deleteToken        = "DB_DELETE_TOKEN"
     case badgeFetchPAT      = "BADGE_FETCH_PAT"
+    case bucketUrl          = "BUCKET_URL"
 }
 
 class SecretsManager {

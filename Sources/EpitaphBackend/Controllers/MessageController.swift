@@ -82,9 +82,7 @@ struct MessagesController: RouteCollection {
 		guard let id = UUID(_id) else {
 			throw Abort(.badRequest, reason: "Query `id` is not a valid UUID")
 		}
-		let message = try await Message.query(on: req.db)
-			.filter(\.$id == id)
-			.first()
+		let message = try await Message.find(id, on: req.db)
 
 		guard let foundMessage = message else {
 			throw Abort(.notFound, reason: "Message not found")
