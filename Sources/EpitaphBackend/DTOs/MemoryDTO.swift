@@ -14,7 +14,6 @@ struct MemoryDTO: Content, Sendable {
 	var label: String
 	var date: String
 	var description: String
-	var image: String
 }
 
 extension MemoryDTO {
@@ -23,8 +22,7 @@ extension MemoryDTO {
 			id: id,
 			label: label,
 			date: date,
-			description: description,
-			image: image
+			description: description
 		)
 	}
 }
