@@ -40,5 +40,21 @@ struct ResourcesController: RouteCollection {
 		)
 	}
 
+	@Sendable
+	func single(req: Request) async throws -> MemoryDTO {
+		guard let _id = try? req.query.get(String.self, at: "id") else {
+			throw Abort(.badRequest, reason: "Missing query `id`")
+		}
+		guard let id = UUID(_id) else {
+			throw Abort(.badRequest, reason: "Query `id` is not a valid UUID")
+		}
+		let memory = try await Memory.find(id, on: req.db)
+
+		guard let foundMemory = memory else {
+			throw Abort(.notFound, reason: "Message not found")
+		}
+
+		return foundMemory.toDTO()
+	}
 
 }

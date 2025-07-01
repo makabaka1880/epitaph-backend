@@ -16,6 +16,12 @@ struct PaginatedResponse<T: Content>: Content {
     let results: [T]
 }
 
+struct IndexedResponse<T: Content>: Content {
+    let count: Int
+    let currentIndex: Int
+    let result: T
+}
+
 struct PromotePayload: Content {
     let id: UUID
 }
