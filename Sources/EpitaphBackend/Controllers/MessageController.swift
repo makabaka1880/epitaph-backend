@@ -25,7 +25,7 @@ struct MessagesController: RouteCollection {
 		let totalCount = try await Message.query(on: req.db).count()
 		let limit = (try? req.query.get(Int.self, at: "limit")) ?? 20
 		let totalPages = (totalCount + limit - 1) / limit
-        let ascending = (try? req.query.get(Bool.self, at: "ascending")) ?? false
+		let ascending = (try? req.query.get(Bool.self, at: "ascending")) ?? false
 		let lastCreatedAt = try? req.query.get(Date.self, at: "lastCreatedAt")
 		let page = (try? req.query.get(Int.self, at: "page")) ?? 1
 
@@ -50,13 +50,13 @@ struct MessagesController: RouteCollection {
 		)
 	}
 
-    @Sendable
-    func post(_ req: Request) async throws -> ReviewMessageDTO {
-        let payload = try req.content.decode(PayloadMessage.self)
-        let review = payload.toReviewMessage()
-        try await review.save(on: req.db)
-        return review.toDTO()
-    }
+	@Sendable
+	func post(_ req: Request) async throws -> ReviewMessageDTO {
+		let payload = try req.content.decode(PayloadMessage.self)
+		let review = payload.toReviewMessage()
+		try await review.save(on: req.db)
+		return review.toDTO()
+	}
 
 	@Sendable
 	func delete(req: Request) async throws -> HTTPStatus {
@@ -72,5 +72,22 @@ struct MessagesController: RouteCollection {
 
 		try await message.delete(on: req.db)
 		return .noContent
+	}
+
+	@Sendable
+	func single(req: Request) async throws -> MessageDTO {
+		guard let _id = try? req.query.get(String.self, at: "id") else {
+			throw Abort(.badRequest, reason: "Missing query `id`")
+		}
+		guard let id = UUID(_id) else {
+			throw Abort(.badRequest, reason: "Query `id` is not a valid UUID")
+		}
+		let message = try await Message.find(id, on: req.db)
+
+		guard let foundMessage = message else {
+			throw Abort(.notFound, reason: "Message not found")
+		}
+
+		return foundMessage.toDTO()
 	}
 }

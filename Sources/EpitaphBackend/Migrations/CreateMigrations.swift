@@ -35,7 +35,6 @@ struct CreateMemories: AsyncMigration {
             .field("label", .datetime, .required)
             .field("date", .string, .required)
             .field("description", .string, .required)
-            .field("image", .string, .required)
             .create()
     }
 

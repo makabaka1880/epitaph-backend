@@ -18,7 +18,6 @@ func routes(_ app: Application) throws {
         "Hello, world!"
     }
     try app.register(collection: MessagesController())
-    try app.register(collection: MemoriesController())
     try app.register(collection: PlainTextController())
     try app.register(collection: MessageReviewController())
     try app.register(collection: GraydateController())
