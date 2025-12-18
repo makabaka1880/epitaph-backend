@@ -61,9 +61,9 @@ struct MessageReviewController: RouteCollection {
         return reviewMessage.toDTO()
     }
 
-    func getAll(_ req: Request) async throws -> [MessageDTO] {
+    func getAll(_ req: Request) async throws -> [ReviewMessageDTO] {
         var query = ReviewMessage.query(on: req.db)
         let msgs = try await query.all()
-        return msgs
+        return msgs.map({ $0.toDTO() })
     }
 }
