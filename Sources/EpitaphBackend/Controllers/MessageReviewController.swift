@@ -1,18 +1,20 @@
 // Created by Sean L. on Jun. 28.
 // Last Updated by Sean L. on Jun. 28.
-// 
+//
 // Epitaph - Backend
 // Sources/EpitaphBackend/Controllers/MessageReviewController.swift
-// 
+//
 // Makabak1880, 2025. All rights reserved.
 
 import Foundation
 import Vapor
 
 struct AuthHeaderMiddleware: AsyncMiddleware {
-    func respond(to request: Request, chainingTo next: any AsyncResponder) async throws -> Response {
+    func respond(to request: Request, chainingTo next: any AsyncResponder) async throws -> Response
+    {
         guard let authToken = request.headers["Authorization"].first,
-            SecretsManager.authenticate(key: .adminReviewKey, against: authToken) else {
+            SecretsManager.authenticate(key: .adminReviewKey, against: authToken)
+        else {
             throw Abort(.forbidden)
         }
         return try await next.respond(to: request)
@@ -21,12 +23,14 @@ struct AuthHeaderMiddleware: AsyncMiddleware {
 
 struct MessageReviewController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
-        let reviews = routes
+        let reviews =
+            routes
             .grouped("review")
             .grouped(AuthHeaderMiddleware())
 
         reviews.post("promote", use: promote)
         reviews.post("reject", use: reject)
+        reviews.get("all", use: getAll)
     }
 
     func promote(_ req: Request) async throws -> MessageDTO {
@@ -55,5 +59,11 @@ struct MessageReviewController: RouteCollection {
         try await reviewMessage.save(on: req.db)
 
         return reviewMessage.toDTO()
+    }
+
+    func getAll(_ req: Request) async throws -> [MessageDTO] {
+        var query = ReviewMessage.query(on: req.db)
+        let msgs = try await query.all()
+        return msgs
     }
 }
