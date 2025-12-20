@@ -147,7 +147,7 @@ extension ReviewMessage {
 		)
     }
     func toDTO() -> ReviewMessageDTO {
-        ReviewMessageDTO(createdAt: self.createdAt, name: self.name, note: self.note, recipient: self.recipient, updatedAt: Date(), status: self.status)
+        ReviewMessageDTO(id: self.id, createdAt: self.createdAt, name: self.name, note: self.note, recipient: self.recipient, updatedAt: self.updatedAt, status: self.status)
     }
 }
 
